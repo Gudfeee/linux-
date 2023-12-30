@@ -1,0 +1,843 @@
+#chat_client
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# import multiprocessing
+from PyQt5.QtWidgets import QApplication
+
+from ChatClientMainWindow import *
+import sys
+
+
+if __name__ == "__main__":
+    """main函数
+
+    主程序由此运行
+    """
+
+    # multiprocessing.freeze_support()  # 冻结多窗口
+    app = QApplication(sys.argv)  # 实例化一个app
+    window = ChatClientMainWindow()
+    window.show()  # 显示窗口
+
+    try:
+        sys.exit(app.exec_())  # app退出
+    except Exception as e:
+        print(e)
+
+#chat_client.ui
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChatClientMainWindow</class>
+ <widget class="QMainWindow" name="ChatClientMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1060</width>
+    <height>474</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>聊天客户端</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>服务器IP地址：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_serverIp">
+        <property name="text">
+         <string>127.0.0.1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>服务器端口：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_serverPort">
+        <property name="text">
+         <string>8888</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>用户昵称：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_username">
+        <property name="text">
+         <string>siri</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnConnect">
+        <property name="text">
+         <string>连接</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QFrame" name="frame_2">
+       <property name="minimumSize">
+        <size>
+         <width>800</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>聊天内容</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_msg"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSend">
+            <property name="text">
+             <string>发送</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+       <zorder>textEdit</zorder>
+       <zorder>label_3</zorder>
+       <zorder></zorder>
+      </widget>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>用户列表：</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="listWidget">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1060</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
+#chat_server
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# import multiprocessing
+from PyQt5.QtWidgets import QApplication
+
+from ChatServerMainWindow import *
+import sys
+
+
+if __name__ == "__main__":
+    """main函数
+
+    主程序由此运行
+    """
+
+    # multiprocessing.freeze_support()  # 冻结多窗口
+    app = QApplication(sys.argv)  # 实例化一个app
+    window = ChatServerMainWindow()
+    window.show()  # 显示窗口
+
+    try:
+        sys.exit(app.exec_())  # app退出
+    except Exception as e:
+        print(e)
+
+#chat_server.ui
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChatServerMainWindow</class>
+ <widget class="QMainWindow" name="ChatServerMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>聊天服务器</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnStart">
+        <property name="text">
+         <string>启动</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnStop">
+        <property name="text">
+         <string>停止</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
+#chat_server_nogui
+import threading
+import socket
+
+class UdpServerThread(threading.Thread):
+
+    def __init__(self,socket):
+        super(UdpServerThread, self).__init__()#注意：一定要显式的调用父类的初始化函数。
+        self.daemon=True
+        self.socket=socket
+
+        self.users={}  #保存活跃的用户连接
+
+    def run(self):#定义每个线程要运行的函数
+        while True:
+            # 接收数据 自动阻塞 等待客户端请求:
+            try:
+                data,addr = self.socket.recvfrom(8192)
+                print('Received from %s:%s.' %(addr,data.decode("utf-8")))
+                cmds=data.decode("utf-8").split("|")
+                if cmds[0]=='connect':  #用户连接
+                    # 1.1保存用户到用户列表
+                    self.users[addr]=cmds[1]
+                    print('用户(%s)连接 (%s)成功' % (cmds[1],addr))
+                    #1.2更新所有客户端的用户列表
+                    user_list=str(self.users)  #dict to str
+                    tt = "user_list|%s" % (user_list)
+                    for client in self.users:
+                        self.socket.sendto(tt.encode("utf-8"),client)
+
+                elif cmds[0]=='disconnect':  #用户连接
+                    # 1.1保存用户到用户列表
+                    del self.users[addr]
+                    print('用户(%s)断开连接 (%s)' % (cmds[1],addr))
+                    #1.2更新所有客户端的用户列表
+                    user_list=str(self.users)  #dict to str
+                    tt = "user_list|%s" % (user_list)
+                    print(tt)
+                    for client in self.users:
+                        self.socket.sendto(tt.encode("utf-8"),client)
+
+                elif cmds[0]=='message':  #用户发送消息
+                    #2.1向所有客户端广播接收的聊天信息
+                    for client in self.users:
+                        tt="message|%s"%(cmds[1])
+                        self.socket.sendto(tt.encode("utf-8"),client)
+            except Exception as ex:
+                print("error",ex)
+                return
+
+if __name__ == "__main__":
+    PORT=8888
+    HOST="0.0.0.0"
+
+    socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socket.bind((HOST,PORT))
+    print("服务器启动(%s %d)"%(HOST,PORT) )
+    server=UdpServerThread(socket)
+    server.start()
+
+    server.join()
+    socket.close()
+
+
+
+
+
+#ChatClientMainWindow - 副本
+
+from PyQt5.QtWidgets import QMainWindow
+from Ui_ChatClientMainWindow import Ui_ChatClientMainWindow
+import threading
+import socket
+import json
+
+class UdpClientThread(threading.Thread):
+
+    def __init__(self,socket,parent):
+        super(UdpClientThread, self).__init__()#注意：一定要显式的调用父类的初始化函数。
+        self.socket=socket
+        self.parent=parent
+
+    def sendConnect(self):
+        cmd="connect|%s" %(self.parent.lineEdit_username.text())
+        print("cmd=",cmd)
+        self.socket.sendto(cmd.encode("utf-8"), self.parent.server_addr)
+
+    def sendDisonnect(self):
+        cmd="disconnect|%s" %(self.parent.lineEdit_username.text())
+        print("cmd=",cmd)
+        self.socket.sendto(cmd.encode("utf-8"), self.parent.server_addr)
+
+    def run(self):#定义每个线程要运行的函数
+        while True:
+            # 接收数据 自动阻塞 等待客户端请求:
+            try:
+                data,addr = self.socket.recvfrom(1024)
+                print('Received from %s:%s.' %(addr,data))
+
+                cmds = data.decode("utf-8").split("|")
+                if cmds[0]=='user_list':
+                    user_list=eval(cmds[1])  #将字典转为字符串
+                    print(user_list)
+                    #1.1 清空用户列表
+                    self.parent.listWidget.clear()
+                    #1.2 显示用户列表
+                    for client in user_list:
+                        st="%s(%s)" %(user_list[client],client)
+                        self.parent.listWidget.addItem(st)
+                elif cmds[0]=='message':  #用户消息
+                    self.parent.textEdit.append(cmds[1])
+                # self.socket.sendto('Hello, %s!' %(data))
+            except:
+                print("thread stopping!!!!!!!")
+                return
+
+
+class ChatClientMainWindow(QMainWindow, Ui_ChatClientMainWindow):
+    PORT=9999
+
+    def __init__(self, parent=None):
+        super(ChatClientMainWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.textEdit.setReadOnly(True)
+        self.btnSend.setDisabled(True)
+
+        self.btnConnect.clicked.connect(self.connectServer)
+        self.btnSend.clicked.connect(self.sendMessage)
+
+        self.listWidget.clear()
+
+    def connectServer(self):
+        if self.btnConnect.text()=='连接':
+            self.btnConnect.setText('断开')
+            self.lineEdit_serverIp.setDisabled(True)
+            self.lineEdit_serverPort.setDisabled(True)
+            self.lineEdit_username.setDisabled(True)
+            self.btnSend.setEnabled(True)
+            self.listWidget.clear()
+
+            self.server_addr=(self.lineEdit_serverIp.text(),int(self.lineEdit_serverPort.text()))
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            # self.socket.connect(self.server_addr)
+            print(self.server_addr)
+            self.client=UdpClientThread(self.socket,self)
+            self.client.sendConnect()
+            self.client.start()
+
+        else:
+            self.btnConnect.setText('连接')
+            self.lineEdit_serverIp.setEnabled(True)
+            self.lineEdit_serverPort.setEnabled(True)
+            self.lineEdit_username.setEnabled(True)
+            self.btnSend.setDisabled(True)
+            self.client.sendDisonnect()
+            self.socket.close()
+            # self.client.join()
+
+
+    def sendMessage(self):
+        cmd="message|%s>%s" %(self.lineEdit_username.text(),self.lineEdit_msg.text())
+        self.socket.sendto(cmd.encode("utf-8"),self.server_addr)
+        print("client send msg:%s" %(cmd))
+
+
+#ChatClientMainWindow
+
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import QThread
+from PyQt5 import QtCore
+from Ui_ChatClientMainWindow import Ui_ChatClientMainWindow
+import socket
+
+#https://blog.csdn.net/u014436243/article/details/102683543
+
+class UdpClientThread(QtCore.QThread):
+    updateMessage = QtCore.pyqtSignal(str)
+    updateUserList = QtCore.pyqtSignal(str)
+
+    def __init__(self,socket,parent):
+        super(UdpClientThread, self).__init__()#注意：一定要显式的调用父类的初始化函数。
+        self.socket=socket
+        self.parent=parent
+
+    def run(self):#定义每个线程要运行的函数
+        while True:
+            # 接收数据 自动阻塞 等待客户端请求:
+            try:
+                data,addr = self.socket.recvfrom(1024)
+                print('Received from %s:%s.' %(addr,data))
+
+                cmds = data.decode("utf-8").split("|")
+                if cmds[0]=='user_list':
+                    self.updateUserList.emit(cmds[1])
+                elif cmds[0]=='message':  #用户消息
+                    #self.parent.textEdit.append(cmds[1])
+                    self.updateMessage.emit(cmds[1])
+                # self.socket.sendto('Hello, %s!' %(data))
+            except Exception as ex:
+                print("error",ex)
+                return
+
+
+class ChatClientMainWindow(QMainWindow, Ui_ChatClientMainWindow):
+    PORT=9999
+
+    def __init__(self, parent=None):
+        super(ChatClientMainWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.textEdit.setReadOnly(True)
+        self.btnSend.setDisabled(True)
+
+        self.btnConnect.clicked.connect(self.connectServer)
+        self.btnSend.clicked.connect(self.sendMessage)
+
+        self.listWidget.clear()
+		
+    def onUpdateMessage(self,msg):
+        self.textEdit.append(msg)
+        print("***",msg)
+		
+    def onUpdateUserList(self,strUserList):
+        user_list=eval(strUserList)  #将字典转为字符串
+        print(user_list)
+        #1.1 清空用户列表
+        self.listWidget.clear()
+        #1.2 显示用户列表
+        for client in user_list:
+                st="%s(%s)" %(user_list[client],client)
+                self.listWidget.addItem(st)
+
+    def sendConnect(self):
+        cmd="connect|%s" %(self.lineEdit_username.text())
+        print("cmd=",cmd)
+        self.socket.sendto(cmd.encode("utf-8"), self.server_addr)
+
+    def sendDisonnect(self):
+        cmd="disconnect|%s" %(self.lineEdit_username.text())
+        print("cmd=",cmd)
+        self.socket.sendto(cmd.encode("utf-8"), self.server_addr)
+
+    def connectServer(self):
+        if self.btnConnect.text()=='连接':
+            self.btnConnect.setText('断开')
+            self.lineEdit_serverIp.setDisabled(True)
+            self.lineEdit_serverPort.setDisabled(True)
+            self.lineEdit_username.setDisabled(True)
+            self.btnSend.setEnabled(True)
+            self.listWidget.clear()
+
+            self.server_addr=(self.lineEdit_serverIp.text(),int(self.lineEdit_serverPort.text()))
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            # self.socket.connect(self.server_addr)
+            print(self.server_addr)
+            self.client=UdpClientThread(self.socket,self)
+            self.client.updateMessage.connect(self.onUpdateMessage)
+            self.client.updateUserList.connect(self.onUpdateUserList)
+            self.client.start()
+            self.sendConnect()
+
+        else:
+            self.btnConnect.setText('连接')
+            self.lineEdit_serverIp.setEnabled(True)
+            self.lineEdit_serverPort.setEnabled(True)
+            self.lineEdit_username.setEnabled(True)
+            self.btnSend.setDisabled(True)
+            self.listWidget.clear()
+            self.sendDisonnect()
+            self.socket.close()
+
+
+    def sendMessage(self):
+        cmd="message|%s>%s" %(self.lineEdit_username.text(),self.lineEdit_msg.text())
+        self.socket.sendto(cmd.encode("utf-8"),self.server_addr)
+        print("client send msg:%s" %(cmd))
+
+
+
+
+
+#ChatServerMainWindow
+from PyQt5.QtWidgets import QMainWindow
+from Ui_ChatServerMainWindow import Ui_ChatServerMainWindow
+import threading
+import socket
+import time
+
+class UdpServerThread(threading.Thread):
+
+    def __init__(self,socket,textEdit):
+        super(UdpServerThread, self).__init__()#注意：一定要显式的调用父类的初始化函数。
+        self.daemon=True
+        self.socket=socket
+        self.textEdit=textEdit
+
+        self.users={}
+
+    def run(self):#定义每个线程要运行的函数
+        while True:
+            # 接收数据 自动阻塞 等待客户端请求:
+            try:
+                # conn, addr = self.socket.accept()
+                data,addr = self.socket.recvfrom(8192)
+                # data=conn.recv(4196)
+                print('Received from %s:%s.' %(addr,data))
+                self.textEdit.append('Received from %s:%s.' %(addr,data.decode("utf-8")))
+                cmds=data.decode("utf-8").split("|")
+                if cmds[0]=='connect':  #用户连接
+                    # 1.1保存用户到用户列表
+                    self.users[addr]=cmds[1]
+                    self.textEdit.append('用户(%s)连接 (%s)' % (cmds[1],addr))
+
+                    #1.2更新所有客户端的用户列表
+                    user_list=str(self.users)  #dict to str
+                    tt = "user_list|%s" % (user_list)
+                    for client in self.users:
+                        self.socket.sendto(tt.encode("utf-8"),client)
+                elif cmds[0]=='disconnect':  #用户连接
+                    # 1.1保存用户到用户列表
+                    del self.users[addr]
+                    self.textEdit.append('用户(%s)断开连接 (%s)' % (cmds[1],addr))
+
+                    #1.2更新所有客户端的用户列表
+                    user_list=str(self.users)  #dict to str
+                    tt = "user_list|%s" % (user_list)
+                    print(tt)
+                    for client in self.users:
+                        self.socket.sendto(tt.encode("utf-8"),client)
+
+                elif cmds[0]=='message':  #用户发送消息
+                    #2.1向所有客户端广播接收的聊天信息
+                    for client in self.users:
+                        print("client=",client)
+                        tt="message|%s"%(cmds[1])
+                        self.socket.sendto(tt.encode("utf-8"),client)
+
+                # self.conn.send(b'Hello, %s!' %(data))
+            except:
+                print("thread stopping!!!!!!!")
+                return
+
+
+class ChatServerMainWindow(QMainWindow, Ui_ChatServerMainWindow):
+    PORT=8888
+
+    def __init__(self, parent=None):
+        super(ChatServerMainWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.textEdit.setReadOnly(True)
+        self.btnStart.setEnabled(True)
+        self.btnStop.setDisabled(True)
+
+        self.btnStart.clicked.connect(self.startServer)
+        self.btnStop.clicked.connect(self.stopServer)
+
+    def startServer(self):
+        self.btnStart.setDisabled(True)
+        self.btnStop.setEnabled(True)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.bind(("127.0.0.1",self.PORT))
+        # self.socket.listen(10)
+        self.textEdit.append("服务器启动，端口：%d"%(self.PORT) )
+        self.server=UdpServerThread(self.socket,self.textEdit)
+        self.server.start()
+
+    def stopServer(self):
+        self.btnStart.setEnabled(True)
+        self.btnStop.setDisabled(True)
+        self.textEdit.append("服务器停止")
+        self.server.users={}
+        self.socket.close()
+        # self.server.join()
+#Ui_ChatClientMainWindow
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'chat_client.ui'
+#
+# Created by: PyQt5 UI code generator 5.6
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_ChatClientMainWindow(object):
+    def setupUi(self, ChatClientMainWindow):
+        ChatClientMainWindow.setObjectName("ChatClientMainWindow")
+        ChatClientMainWindow.resize(1060, 474)
+        self.centralwidget = QtWidgets.QWidget(ChatClientMainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.lineEdit_serverIp = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_serverIp.setObjectName("lineEdit_serverIp")
+        self.horizontalLayout.addWidget(self.lineEdit_serverIp)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout.addWidget(self.label_2)
+        self.lineEdit_serverPort = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_serverPort.setObjectName("lineEdit_serverPort")
+        self.horizontalLayout.addWidget(self.lineEdit_serverPort)
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setObjectName("label_5")
+        self.horizontalLayout.addWidget(self.label_5)
+        self.lineEdit_username = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_username.setObjectName("lineEdit_username")
+        self.horizontalLayout.addWidget(self.lineEdit_username)
+        self.btnConnect = QtWidgets.QPushButton(self.centralwidget)
+        self.btnConnect.setObjectName("btnConnect")
+        self.horizontalLayout.addWidget(self.btnConnect)
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setObjectName("splitter")
+        self.frame_2 = QtWidgets.QFrame(self.splitter)
+        self.frame_2.setMinimumSize(QtCore.QSize(800, 0))
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame_2)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.label_3 = QtWidgets.QLabel(self.frame_2)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout_2.addWidget(self.label_3)
+        self.textEdit = QtWidgets.QTextEdit(self.frame_2)
+        self.textEdit.setObjectName("textEdit")
+        self.verticalLayout_2.addWidget(self.textEdit)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.lineEdit_msg = QtWidgets.QLineEdit(self.frame_2)
+        self.lineEdit_msg.setObjectName("lineEdit_msg")
+        self.horizontalLayout_3.addWidget(self.lineEdit_msg)
+        self.btnSend = QtWidgets.QPushButton(self.frame_2)
+        self.btnSend.setObjectName("btnSend")
+        self.horizontalLayout_3.addWidget(self.btnSend)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.textEdit.raise_()
+        self.label_3.raise_()
+        self.frame = QtWidgets.QFrame(self.splitter)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label_4 = QtWidgets.QLabel(self.frame)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout.addWidget(self.label_4)
+        self.listWidget = QtWidgets.QListWidget(self.frame)
+        self.listWidget.setMinimumSize(QtCore.QSize(0, 0))
+        self.listWidget.setObjectName("listWidget")
+        self.verticalLayout.addWidget(self.listWidget)
+        self.verticalLayout_3.addWidget(self.splitter)
+        ChatClientMainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(ChatClientMainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1060, 30))
+        self.menubar.setObjectName("menubar")
+        ChatClientMainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(ChatClientMainWindow)
+        self.statusbar.setObjectName("statusbar")
+        ChatClientMainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(ChatClientMainWindow)
+        QtCore.QMetaObject.connectSlotsByName(ChatClientMainWindow)
+
+    def retranslateUi(self, ChatClientMainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        ChatClientMainWindow.setWindowTitle(_translate("ChatClientMainWindow", "聊天客户端"))
+        self.label.setText(_translate("ChatClientMainWindow", "服务器IP地址："))
+        self.lineEdit_serverIp.setText(_translate("ChatClientMainWindow", "127.0.0.1"))
+        self.label_2.setText(_translate("ChatClientMainWindow", "服务器端口："))
+        self.lineEdit_serverPort.setText(_translate("ChatClientMainWindow", "8888"))
+        self.label_5.setText(_translate("ChatClientMainWindow", "用户昵称："))
+        self.lineEdit_username.setText(_translate("ChatClientMainWindow", "siri"))
+        self.btnConnect.setText(_translate("ChatClientMainWindow", "连接"))
+        self.label_3.setText(_translate("ChatClientMainWindow", "聊天内容"))
+        self.btnSend.setText(_translate("ChatClientMainWindow", "发送"))
+        self.label_4.setText(_translate("ChatClientMainWindow", "用户列表："))
+#Ui_ChatServerMainWindow
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'chat_server.ui'
+#
+# Created by: PyQt5 UI code generator 5.6
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_ChatServerMainWindow(object):
+    def setupUi(self, ChatServerMainWindow):
+        ChatServerMainWindow.setObjectName("ChatServerMainWindow")
+        ChatServerMainWindow.resize(900, 480)
+        self.centralwidget = QtWidgets.QWidget(ChatServerMainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.btnStart = QtWidgets.QPushButton(self.centralwidget)
+        self.btnStart.setObjectName("btnStart")
+        self.horizontalLayout.addWidget(self.btnStart)
+        self.btnStop = QtWidgets.QPushButton(self.centralwidget)
+        self.btnStop.setObjectName("btnStop")
+        self.horizontalLayout.addWidget(self.btnStop)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        self.textEdit.setObjectName("textEdit")
+        self.verticalLayout.addWidget(self.textEdit)
+        ChatServerMainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(ChatServerMainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 900, 30))
+        self.menubar.setObjectName("menubar")
+        ChatServerMainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(ChatServerMainWindow)
+        self.statusbar.setObjectName("statusbar")
+        ChatServerMainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(ChatServerMainWindow)
+        QtCore.QMetaObject.connectSlotsByName(ChatServerMainWindow)
+
+    def retranslateUi(self, ChatServerMainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        ChatServerMainWindow.setWindowTitle(_translate("ChatServerMainWindow", "聊天服务器"))
+        self.btnStart.setText(_translate("ChatServerMainWindow", "启动"))
+        self.btnStop.setText(_translate("ChatServerMainWindow", "停止")
